@@ -22,7 +22,7 @@ CREATE TABLE if not EXISTS patients(
     discharge_date VARCHAR(255)
 );
 
-INSERT INTO patients (name, last_name, address, dni, discharge_date) VALUES
+INSERT INTO patients (`name`, last_name, `address`, dni, discharge_date) VALUES
 ('Miguel', 'Casale', 'Av. Siempre viva 34', 45678, '2023-03-30'),
 ('Manuel', 'Casas', 'Av. Siempre viva 54', 45675, '2023-03-31')
 ON DUPLICATE KEY UPDATE `dni` = `dni`;

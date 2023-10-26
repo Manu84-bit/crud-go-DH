@@ -10,18 +10,18 @@ type SQLDentistInteface interface {
 	Delete(id int) (int, error)
 }
 
-type SQLPatientInteface interface {
-	Create(patient *domain.Patient) (int, error)
-	Read(id int) (*domain.Patient, error)
-	ReadAll()([]domain.Patient, error)
-	Update(patient domain.Patient) (int, error)
-	Delete(id int) (int, error)
+type SQLPatientInterface interface {
+	// CreateP(patient *domain.Patient) (int, error)
+	// ReadP(id int) (*domain.Patient, error)
+	ReadAllP()([]domain.Patient, error)
+	// UpdateP(patient domain.Patient) (int, error)
+	// DeleteP(id int) (int, error)
 }
 
 type SQLAppointmentInteface interface {
-	Create(a *domain.Appointment) (int, error)
-	Read(id int) (*domain.Appointment, error)
-	ReadAll()([]domain.Appointment, error)
-	Update(a domain.Appointment) (int, error)
-	Delete(id int) (int, error)
+	CreateA(a *domain.Appointment) (int, error)
+	ReadA(id int) (*domain.Appointment, error)
+	ReadAllA()([]domain.Appointment, error)
+	UpdateA(a domain.Appointment) (int, error)
+	DeleteA(id int) (int, error)
 }

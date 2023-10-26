@@ -2,7 +2,9 @@ package main
 
 import (
 	"CRUD-FINAL/cmd/server/handlerdentist"
+	"CRUD-FINAL/cmd/server/handlerpatient"
 	"CRUD-FINAL/internal/dentists"
+	"CRUD-FINAL/internal/patients"
 	"CRUD-FINAL/pkg/clinic"
 	"database/sql"
 	"fmt"
@@ -17,7 +19,7 @@ import (
 func main() {
 
 
-	dsn1 := "root:Servidor2$@tcp(localhost:3306)/"
+	dsn1 := "root:Servidor2$@tcp(localhost:3306)/?parseTime=true"
 	// dsn2 := "user:user@tcp(mysql-db:33060)/go_db"
 
     // Read SQL script from file
@@ -57,16 +59,31 @@ func main() {
 
 
 	//API 
+	r := gin.Default()
+
 	clinicD := clinic.SqlDentistImp{DB: db}
 	repoD := dentists.RepositoryImpl{DentistRepo: &clinicD}
 	serviceD := dentists.Service{Repository: &repoD}
 	handlerD := handlerdentist.DentistHandler{DentistService: &serviceD}
 
-	r := gin.Default()
-	r.GET("/dentists/:id", handlerD.GetById)
-	r.GET("/dentists", handlerD.GetAll)
-	r.DELETE("dentists/delete/:id", handlerD.DeleteById)
-	r.POST("dentists/new", handlerD.SaveDentist)
-	r.PUT("dentists/update/:id", handlerD.UpdateDentist)
+	apiDentist := r.Group("/dentists")
+	apiDentist.GET("/:id", handlerD.GetById)
+	apiDentist.GET("", handlerD.GetAll)
+	apiDentist.DELETE("/delete/:id", handlerD.DeleteById)
+	apiDentist.POST("/new", handlerD.SaveDentist)
+	apiDentist.PUT("/update/:id", handlerD.UpdateDentist)
+
+    clinicP := clinic.SqlPatientImp{DB: db}
+	repoP := patients.RepositoryImpl{PatientRepo: &clinicP}
+	serviceP := patients.Service{Repository: &repoP}
+	handlerP := handlerpatient.PatientHandler{PatientService: &serviceP}
+
+	apiPatient := r.Group("/patients")
+		// Define routes within the group
+		apiPatient.GET("", handlerP.GetAll)
+		// apiPatient.POST("/endpoint2", endpoint2Handler)
+
+
+
 	r.Run(":3000")
 }
