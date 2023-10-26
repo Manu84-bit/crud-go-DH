@@ -11,8 +11,8 @@ type SQLDentistInteface interface {
 }
 
 type SQLPatientInterface interface {
-	// CreateP(patient *domain.Patient) (int, error)
-	// ReadP(id int) (*domain.Patient, error)
+	CreateP(patient *domain.Patient) (int, error)
+	ReadP(id int) (*domain.Patient, error)
 	ReadAllP()([]domain.Patient, error)
 	// UpdateP(patient domain.Patient) (int, error)
 	// DeleteP(id int) (int, error)

@@ -5,8 +5,8 @@ import "CRUD-FINAL/internal/domain"
 type IService interface {
 
 	GetAllPatients()([]domain.Patient, error)
-	// GetByIdentifier(id int)(*domain.Patient, error)
-	// SavePatientt(d *domain.Patient)(int, error)
+	GetByIdentifier(id int)(*domain.Patient, error)
+	SavePatient(d *domain.Patient)(int, error)
 	// DeletePatient(id int)(int, error)
 	// UpdatePatient(d domain.Patient)(int, error)
 }
@@ -23,14 +23,15 @@ func (s *Service) GetAllPatients()([]domain.Patient, error){
 
 	return patients, nil
 }
-// func (s *Service) GetByIdentifier(id int)(*domain.Dentist, error){
-// 	d, err := s.Repository.GetById(id)
-// 	if err != nil{
-// 		return nil, err
-// 	}
 
-// 	return d, nil
-// }
+func (s *Service) GetByIdentifier(id int)(*domain.Patient, error){
+	d, err := s.Repository.GetById(id)
+	if err != nil{
+		return nil, err
+	}
+
+	return d, nil
+}
 
 // func (s *Service) DeleteDentist(id int)(int, error){
 // 	id,err := s.Repository.DeleteById(id);
@@ -40,13 +41,13 @@ func (s *Service) GetAllPatients()([]domain.Patient, error){
 // 	return id, nil
 // }
 
-// func (s *Service) SaveDentist(d *domain.Dentist)(int, error){
-//   id, err := s.Repository.Save(d)
-//   if err != nil{
-// 		return 0, err
-// 	}
-// 	return id, nil
-// }
+func (s *Service) SavePatient(p *domain.Patient)(int, error){
+  id, err := s.Repository.Save(p)
+  if err != nil{
+		return 0, err
+	}
+	return id, nil
+}
 
 // func (s *Service) UpdateDentist(d domain.Dentist)(int, error){
 // 	id, err := s.Repository.Update(d)

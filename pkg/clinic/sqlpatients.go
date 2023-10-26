@@ -11,7 +11,7 @@ type SqlPatientImp struct {
 	DB *sql.DB
 }
 
-func (s *SqlDentistImp) ReadP(id int)(*domain.Patient, error) {
+func (s *SqlPatientImp) ReadP(id int)(*domain.Patient, error) {
 	var dentist domain.Patient
 	query:= "SELECT * FROM patients WHERE id = ?"
 	row := s.DB.QueryRow(query, id)
@@ -49,14 +49,14 @@ func (s *SqlDentistImp) ReadP(id int)(*domain.Patient, error) {
 	return patients, nil
 }
 
-func(s *SqlDentistImp) CreateP(dentist *domain.Dentist) (int, error) {
-	query:= "INSERT INTO dentists(name, last_name, license) VALUES (?,?,?)"
+func(s *SqlPatientImp) CreateP(patient *domain.Patient) (int, error) {
+	query:= "INSERT INTO patients(name, last_name, address, dni, discharge_date) VALUES (?,?,?,?,?)"
 	stmt, err := s.DB.Prepare(query)
 	if err != nil {
 		return 0, err
 	}
 
-	res, err := stmt.Exec(dentist.Name, dentist.LastName, dentist.LicenseCode)
+	res, err := stmt.Exec(patient.Name, patient.LastName, patient.Address, patient.DNI, patient.DischargeDate)
 	if err != nil {
 		return 0, err
 	}

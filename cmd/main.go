@@ -19,8 +19,10 @@ import (
 func main() {
 
 
-	dsn1 := "root:Servidor2$@tcp(localhost:3306)/?parseTime=true"
-	// dsn2 := "user:user@tcp(mysql-db:33060)/go_db"
+	// dsn1 := "root:Servidor2$@tcp(localhost:3306)/?parseTime=true"
+
+	//Base de datos mysql definida en el docker-compose.yaml
+	dsn2 := "user:user@tcp(localhost:8083)/"
 
     // Read SQL script from file
     sqlScript, err := os.ReadFile("./init/init.sql")
@@ -32,7 +34,7 @@ func main() {
     sqlStatements := strings.Split(string(sqlScript), ";")
 
     // Open a database connection
-    db, err := sql.Open("mysql", dsn1)
+    db, err := sql.Open("mysql", dsn2)
     if err != nil {
         log.Fatal(err)
     }
@@ -67,10 +69,10 @@ func main() {
 	handlerD := handlerdentist.DentistHandler{DentistService: &serviceD}
 
 	apiDentist := r.Group("/dentists")
-	apiDentist.GET("/:id", handlerD.GetById)
 	apiDentist.GET("", handlerD.GetAll)
-	apiDentist.DELETE("/delete/:id", handlerD.DeleteById)
+	apiDentist.GET("/:id", handlerD.GetById)
 	apiDentist.POST("/new", handlerD.SaveDentist)
+	apiDentist.DELETE("/delete/:id", handlerD.DeleteById)
 	apiDentist.PUT("/update/:id", handlerD.UpdateDentist)
 
     clinicP := clinic.SqlPatientImp{DB: db}
@@ -79,11 +81,24 @@ func main() {
 	handlerP := handlerpatient.PatientHandler{PatientService: &serviceP}
 
 	apiPatient := r.Group("/patients")
-		// Define routes within the group
 		apiPatient.GET("", handlerP.GetAll)
-		// apiPatient.POST("/endpoint2", endpoint2Handler)
+		apiPatient.GET("/:id", handlerP.GetById)
+		apiPatient.POST("/new", handlerP.SavePatient)
+		// apiPatient.DELETE("/delete/:id", handlerP.DeleteById)
+	    // apiPatient.PUT("/update/:id", handlerP.UpdatePatient)
 
 
+	// clinicP := clinic.SqlPatientImp{DB: db}
+	// repoP := patients.RepositoryImpl{PatientRepo: &clinicP}
+	// serviceP := patients.Service{Repository: &repoP}
+	// handlerA := handlerpatient.PatientHandler{PatientService: &serviceP}
+
+	// apiAppointment := r.Group("/appointments")
+	// 	apiAppointment.GET("", handlerA.GetAll)
+	// 	apiAppointment.GET("/:id", handlerA.GetById)
+	// 	apiAppointment.POST("/new", handlerA.SaveAppointment)
+	// 	apiAppointment.DELETE("/delete/:id", handlerA.DeleteById)
+	// 	apiAppointment.PUT("/update/:id", handlerA.UpdateAppointment)
 
 	r.Run(":3000")
 }
