@@ -1,4 +1,4 @@
-module CRUD-GO
+module CRUD-FINAL
 
 go 1.20
 
