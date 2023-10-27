@@ -14,14 +14,14 @@ type SQLPatientInterface interface {
 	CreateP(patient *domain.Patient) (int, error)
 	ReadP(id int) (*domain.Patient, error)
 	ReadAllP()([]domain.Patient, error)
-	// UpdateP(patient domain.Patient) (int, error)
-	// DeleteP(id int) (int, error)
+	UpdateP(patient domain.Patient) (int, error)
+	DeleteP(id int) (int, error)
 }
 
-type SQLAppointmentInteface interface {
+type SQLAppointmentInterface interface {
 	CreateA(a *domain.Appointment) (int, error)
-	ReadA(id int) (*domain.Appointment, error)
-	ReadAllA()([]domain.Appointment, error)
-	UpdateA(a domain.Appointment) (int, error)
-	DeleteA(id int) (int, error)
+	ReadA(id int) (*domain.AppointmentDTO, error)
+	ReadAllA()([]domain.AppointmentDTO, error)
+	// UpdateA(a domain.Appointment) (int, error)
+	// DeleteA(id int) (int, error)
 }

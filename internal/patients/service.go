@@ -7,8 +7,8 @@ type IService interface {
 	GetAllPatients()([]domain.Patient, error)
 	GetByIdentifier(id int)(*domain.Patient, error)
 	SavePatient(d *domain.Patient)(int, error)
-	// DeletePatient(id int)(int, error)
-	// UpdatePatient(d domain.Patient)(int, error)
+	DeletePatient(id int)(int, error)
+	UpdatePatient(d domain.Patient)(int, error)
 }
 
 type Service struct {
@@ -33,13 +33,13 @@ func (s *Service) GetByIdentifier(id int)(*domain.Patient, error){
 	return d, nil
 }
 
-// func (s *Service) DeleteDentist(id int)(int, error){
-// 	id,err := s.Repository.DeleteById(id);
-// 		if err != nil{
-// 		return 0, err
-// 	}
-// 	return id, nil
-// }
+func (s *Service) DeletePatient(id int)(int, error){
+	id,err := s.Repository.DeleteById(id);
+		if err != nil{
+		return 0, err
+	}
+	return id, nil
+}
 
 func (s *Service) SavePatient(p *domain.Patient)(int, error){
   id, err := s.Repository.Save(p)
@@ -49,10 +49,10 @@ func (s *Service) SavePatient(p *domain.Patient)(int, error){
 	return id, nil
 }
 
-// func (s *Service) UpdateDentist(d domain.Dentist)(int, error){
-// 	id, err := s.Repository.Update(d)
-// 	 if err != nil{
-// 		return 0, err
-// 	}
-// 	return id, nil
-// }
+func (s *Service) UpdatePatient(p domain.Patient)(int, error){
+	id, err := s.Repository.Update(p)
+	 if err != nil{
+		return 0, err
+	}
+	return id, nil
+}

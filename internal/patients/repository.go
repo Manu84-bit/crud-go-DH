@@ -11,8 +11,8 @@ type IRepository interface {
 	Save(patient *domain.Patient) (int, error)
 	GetById(id int) (*domain.Patient, error)
 	GetAll()([]domain.Patient, error)
-	// Update(d domain.Patient) (int, error)
-	// DeleteById(id int) (int, error)
+	Update(d domain.Patient) (int, error)
+	DeleteById(id int) (int, error)
 }
 
 type RepositoryImpl struct {
@@ -46,19 +46,19 @@ func (r *RepositoryImpl) GetById(id int) (*domain.Patient, error){
 	return patient, nil
 }
 
-// func (r *RepositoryImpl) DeleteById(id int) (int, error) {
-//   idDentist, err := r.DentistRepo.Delete(id)
-//   if err != nil {
-// 	return 0, web.NewNotFoundException(fmt.Sprintf("dentist id %d not exists", idDentist))
-//   }
-//   return idDentist, nil
-// }
+func (r *RepositoryImpl) DeleteById(id int) (int, error) {
+  idDentist, err := r.PatientRepo.DeleteP(id)
+  if err != nil {
+	return 0, web.NewNotFoundException(fmt.Sprintf("dentist id %d not exists", idDentist))
+  }
+  return idDentist, nil
+}
 
-// func (r *RepositoryImpl) Update(d domain.Dentist) (int, error){
-// idDentist, err := r.DentistRepo.Update(d)
-// if err != nil {
-// 	return 0, web.NewNotFoundException(fmt.Sprintf("dentist id %d not exists", idDentist))
-//   }
+func (r *RepositoryImpl) Update(p domain.Patient) (int, error){
+idPatient, err := r.PatientRepo.UpdateP(p)
+if err != nil {
+	return 0, web.NewNotFoundException(fmt.Sprintf("patient id %d not exists", idPatient))
+  }
 
-//   return idDentist, nil
-// }
+  return idPatient, nil
+}

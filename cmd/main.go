@@ -1,8 +1,10 @@
 package main
 
 import (
+	"CRUD-FINAL/cmd/server/handlerappointment"
 	"CRUD-FINAL/cmd/server/handlerdentist"
 	"CRUD-FINAL/cmd/server/handlerpatient"
+	"CRUD-FINAL/internal/appointments"
 	"CRUD-FINAL/internal/dentists"
 	"CRUD-FINAL/internal/patients"
 	"CRUD-FINAL/pkg/clinic"
@@ -84,19 +86,19 @@ func main() {
 		apiPatient.GET("", handlerP.GetAll)
 		apiPatient.GET("/:id", handlerP.GetById)
 		apiPatient.POST("/new", handlerP.SavePatient)
-		// apiPatient.DELETE("/delete/:id", handlerP.DeleteById)
-	    // apiPatient.PUT("/update/:id", handlerP.UpdatePatient)
+		apiPatient.DELETE("/delete/:id", handlerP.DeleteById)
+	    apiPatient.PUT("/update/:id", handlerP.UpdatePatient)
 
 
-	// clinicP := clinic.SqlPatientImp{DB: db}
-	// repoP := patients.RepositoryImpl{PatientRepo: &clinicP}
-	// serviceP := patients.Service{Repository: &repoP}
-	// handlerA := handlerpatient.PatientHandler{PatientService: &serviceP}
+	clinicA := clinic.SqlAppointImp{DB: db}
+	repoA := appointments.RepositoryImpl{AppointRepo: &clinicA}
+	serviceA := appointments.Service{Repository: &repoA}
+	handlerA := handlerappointment.AppointHandler{ApointmentService: &serviceA}
 
-	// apiAppointment := r.Group("/appointments")
-	// 	apiAppointment.GET("", handlerA.GetAll)
-	// 	apiAppointment.GET("/:id", handlerA.GetById)
-	// 	apiAppointment.POST("/new", handlerA.SaveAppointment)
+	apiAppointment := r.Group("/appointments")
+		apiAppointment.GET("", handlerA.GetAll)
+		apiAppointment.GET("/:id", handlerA.GetById)
+		apiAppointment.POST("/new", handlerA.SaveAppointment)
 	// 	apiAppointment.DELETE("/delete/:id", handlerA.DeleteById)
 	// 	apiAppointment.PUT("/update/:id", handlerA.UpdateAppointment)
 

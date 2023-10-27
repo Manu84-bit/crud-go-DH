@@ -69,8 +69,8 @@ func(s *SqlPatientImp) CreateP(patient *domain.Patient) (int, error) {
 	return int(id), nil
 }
 
-func (s *SqlDentistImp) DeleteP(id int)(int, error){
-	query:= "DELETE FROM dentists WHERE id= ?";
+func (s *SqlPatientImp) DeleteP(id int)(int, error){
+	query:= "DELETE FROM patients WHERE id= ?";
 	stmt, err := s.DB.Prepare(query)
 	if err != nil {
 		return 0, err
@@ -83,16 +83,16 @@ func (s *SqlDentistImp) DeleteP(id int)(int, error){
 	return int(id), nil
 }
 
-func (s *SqlDentistImp) UpdateP(dentist domain.Dentist)(int, error){
-	query := "UPDATE dentists SET name = ?, last_name = ?, license = ? WHERE id = ?";
+func (s *SqlPatientImp) UpdateP(patient domain.Patient)(int, error){
+	query := "UPDATE patients SET name = ?, last_name = ?, address = ?, dni = ?, discharge_date = ? WHERE id = ?";
 	stmt, err := s.DB.Prepare(query)
 	if err != nil {
 		return 0, err
 	}
 
-	_, err2 := stmt.Exec(dentist.Name, dentist.LastName, dentist.LicenseCode, dentist.Id)
+	_, err2 := stmt.Exec(patient.Name, patient.LastName, patient.Address, patient.DNI, patient.DischargeDate, patient.Id)
 	if err2 != nil {
 		return 0, err
 	}
-	return dentist.Id, nil
+	return patient.Id, nil
 }
