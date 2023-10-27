@@ -41,10 +41,5 @@ CREATE TABLE if not EXISTS `appointments` (
 INSERT INTO appointments (patient_id, dentist_id, `date`) VALUES
 (1,2, '2023-03-30'),
 (2,1, '2023-03-31')
-ON DUPLICATE KEY UPDATE `date`= `date`; 
-
-drop table if EXISTS dto;
-Create table if NOT EXISTS dto SELECT appointments.id, concat (patients.name,' ' ,patients.last_name) as patient, concat (dentists.name, ' ', dentists.last_name) as dentist, appointments.date
-FROM appointments
-INNER JOIN patients ON appointments.patient_id=patients.id
-INNER JOIN dentists ON appointments.dentist_id=dentists.id;
+ON DUPLICATE KEY UPDATE `date`= `date`
+; 

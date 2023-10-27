@@ -22,6 +22,6 @@ type SQLAppointmentInterface interface {
 	CreateA(a *domain.Appointment) (int, error)
 	ReadA(id int) (*domain.AppointmentDTO, error)
 	ReadAllA()([]domain.AppointmentDTO, error)
-	// UpdateA(a domain.Appointment) (int, error)
-	// DeleteA(id int) (int, error)
+	UpdateA(a domain.Appointment) (int, error)
+	DeleteA(id int) (int, error)
 }

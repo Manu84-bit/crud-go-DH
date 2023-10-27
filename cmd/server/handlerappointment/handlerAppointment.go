@@ -4,6 +4,7 @@ import (
 	"CRUD-FINAL/internal/appointments"
 	"CRUD-FINAL/internal/domain"
 	"CRUD-FINAL/pkg/web"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -49,27 +50,27 @@ func (h *AppointHandler) GetById(ctx *gin.Context){
 	ctx.JSON(http.StatusOK, &appointmentFound)
 }
 
-// func (h *DentistHandler) DeleteById(ctx *gin.Context){
-// 	idParam := ctx.Param("id")
-// 	id, err := strconv.Atoi(idParam)
-// 	if err != nil {
-// 		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError(err.Error()))
-// 		return
-// 	}
+func (h *AppointHandler) DeleteById(ctx *gin.Context){
+	idParam := ctx.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError(err.Error()))
+		return
+	}
 
-// 	idFound, errFound := h.DentistService.DeleteDentist(id)
-// 	if errFound != nil {
-// 		if apiError, ok := errFound.(*web.ErrorApi); ok {
-// 			ctx.AbortWithStatusJSON(apiError.Status, apiError)
-// 			return
-// 		}
-// 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, errFound)
-// 		return
-// 	}
+	idFound, errFound := h.ApointmentService.DeleteAppointment(id)
+	if errFound != nil {
+		if apiError, ok := errFound.(*web.ErrorApi); ok {
+			ctx.AbortWithStatusJSON(apiError.Status, apiError)
+			return
+		}
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, errFound)
+		return
+	}
 
-// 	ctx.JSON(http.StatusOK, &idFound)
+	ctx.JSON(http.StatusOK, &idFound)
 
-// }
+}
 
 func (h *AppointHandler) SaveAppointment(ctx *gin.Context){
 	 var requestBody domain.Appointment 
@@ -83,28 +84,28 @@ func (h *AppointHandler) SaveAppointment(ctx *gin.Context){
     ctx.JSON(http.StatusOK, gin.H{"message": "Resource created successfully"})
 }
 
-// func (h *DentistHandler) UpdateDentist(ctx * gin.Context){
-// 	idParam := ctx.Param("id")
-// 	id, err := strconv.Atoi(idParam)
+func (h *AppointHandler) UpdateAppointment(ctx * gin.Context){
+	idParam := ctx.Param("id")
+	id, err := strconv.Atoi(idParam)
 
-// 	if err != nil {
-// 		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError(err.Error()))
-// 		return
-// 	}
-// 	var requestBody domain.Dentist 
-// 	err2 := ctx.ShouldBindJSON(&requestBody)
-//     if err2 != nil {
-//         ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-//         return
-//     }
-// 	if id == requestBody.Id {
-// 	  idUpdated, err3 := h.DentistService.UpdateDentist(requestBody)
-// 	  if err3 != nil {
-// 		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError(err.Error()))
-// 		return
-// 	  }
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError(err.Error()))
+		return
+	}
+	var requestBody domain.Appointment 
+	err2 := ctx.ShouldBindJSON(&requestBody)
+    if err2 != nil {
+        ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+	if id == requestBody.Id {
+	  idUpdated, err3 := h.ApointmentService.UpdateAppointment(requestBody)
+	  if err3 != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError(err.Error()))
+		return
+	  }
 
-// 	 ctx.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Resource with id %v updated successfully", idUpdated)})
-// 	}
+	 ctx.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Resource with id %v updated successfully", idUpdated)})
+	}
 
-// }
+}

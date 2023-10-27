@@ -99,8 +99,8 @@ func main() {
 		apiAppointment.GET("", handlerA.GetAll)
 		apiAppointment.GET("/:id", handlerA.GetById)
 		apiAppointment.POST("/new", handlerA.SaveAppointment)
-	// 	apiAppointment.DELETE("/delete/:id", handlerA.DeleteById)
-	// 	apiAppointment.PUT("/update/:id", handlerA.UpdateAppointment)
+		apiAppointment.DELETE("/delete/:id", handlerA.DeleteById)
+		apiAppointment.PUT("/update/:id", handlerA.UpdateAppointment)
 
 	r.Run(":3000")
 }

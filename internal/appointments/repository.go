@@ -11,8 +11,8 @@ type IRepository interface {
 	GetByIdentifier(id int)(*domain.AppointmentDTO, error)
 	GetAllAppointments()([]domain.AppointmentDTO, error)
 	SaveAppointment(d *domain.Appointment)(int, error)
-	// DeleteDentist(id int)(int, error)
-	// UpdateDentist(d domain.Dentist)(int, error)
+	DeleteById(id int)(int, error)
+	UpdateAppointment(a domain.Appointment)(int, error)
 }
 
 type RepositoryImpl struct {
@@ -44,4 +44,21 @@ func (r *RepositoryImpl) SaveAppointment(a *domain.Appointment) (int, error){
 	}
 
 	return newDentist, nil
+}
+
+func (r *RepositoryImpl) DeleteById(id int) (int, error) {
+  idA, err := r.AppointRepo.DeleteA(id)
+  if err != nil {
+	return 0, web.NewNotFoundException(fmt.Sprintf("appointment id %d not exists", idA))
+  }
+  return idA, nil
+}
+
+func (r *RepositoryImpl) UpdateAppointment(a domain.Appointment) (int, error){
+idA, err := r.AppointRepo.UpdateA(a)
+if err != nil {
+	return 0, web.NewNotFoundException(fmt.Sprintf("appointment id %d not exists", idA))
+  }
+
+  return idA, nil
 }
