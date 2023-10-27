@@ -39,7 +39,7 @@ CREATE TABLE if not EXISTS `appointments` (
 );
 
 INSERT INTO appointments (patient_id, dentist_id, `date`) VALUES
-(1,2, '2023-03-30'),
-(2,1, '2023-03-31')
+(1,2, '2022-08-15 14:00:45'),
+(2,1, '2021-08-15 14:30:45')
 ON DUPLICATE KEY UPDATE `date`= `date`
 ; 
